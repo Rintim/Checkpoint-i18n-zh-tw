@@ -37,7 +37,7 @@ CheatManager::CheatManager(void)
             fclose(in);
         }
         else {
-            Logger::getInstance().log(Logger::WARN, "Failed to open " + path + " with errno %d.", errno);
+            Logger::getInstance().log(Logger::WARN, "無法打開" + path + "： %d.", errno);
         }
     }
     else {
@@ -63,7 +63,7 @@ CheatManager::CheatManager(void)
             fclose(f);
         }
         else {
-            Logger::getInstance().log(Logger::WARN, "Failed to open " + path + " with errno %d.", errno);
+            Logger::getInstance().log(Logger::WARN, "無法打開" + path + "： %d.", errno);
         }
     }
 }
@@ -98,6 +98,6 @@ void CheatManager::save(const std::string& key, const std::vector<std::string>& 
         fclose(f);
     }
     else {
-        Logger::getInstance().log(Logger::ERROR, "Failed to write " + outPath + " with errno %d.", errno);
+        Logger::getInstance().log(Logger::ERROR, "無法寫入" + outPath + "： %d.", errno);
     }
 }

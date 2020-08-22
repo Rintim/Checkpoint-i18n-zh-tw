@@ -59,8 +59,8 @@ CheatManagerOverlay::CheatManagerOverlay(Screen& screen, const std::string& mkey
 
     staticBuf  = C2D_TextBufNew(48);
     dynamicBuf = C2D_TextBufNew(16);
-    C2D_TextParse(&multiSelectText, staticBuf, "\uE003 to select all cheats");
-    C2D_TextParse(&multiDeselectText, staticBuf, "\uE003 to deselect all cheats");
+    C2D_TextParse(&multiSelectText, staticBuf, "\uE003 全選");
+    C2D_TextParse(&multiDeselectText, staticBuf, "\uE003 取消全選");
     C2D_TextOptimize(&multiSelectText);
     C2D_TextOptimize(&multiDeselectText);
 }
@@ -139,7 +139,7 @@ void CheatManagerOverlay::update(touchPosition* touch)
             g_selectedCheatCodes.push_back(scrollable->cellName(i));
         }
         me = std::make_shared<YesNoOverlay>(
-            screen, "Do you want to store\nthe cheat file?",
+            screen, "即將儲存\n作弊檔案\n是否繼續？",
             []() {
                 CheatManager::getInstance().save(g_selectedCheatKey, g_selectedCheatCodes);
                 g_screen->removeOverlay();
