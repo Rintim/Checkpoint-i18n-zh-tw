@@ -50,7 +50,7 @@ Result servicesInit(void)
     Result res = 0;
 
     if (R_FAILED(res = Archive::init())) {
-        return consoleDisplayError("檔案：無法初始化", res);
+        return consoleDisplayError("档案：無法初始化", res);
     }
     ATEXIT(Archive::exit);
 

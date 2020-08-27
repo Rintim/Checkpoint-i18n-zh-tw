@@ -36,7 +36,7 @@ MainScreen::MainScreen(void) : hid(rowlen * collen, collen)
     staticBuf  = C2D_TextBufNew(256);
     dynamicBuf = C2D_TextBufNew(256);
 
-    buttonBackup    = std::make_unique<Clickable>(204, 102, 110, 35, COLOR_GREY_DARKER, COLOR_WHITE, "備份 \uE004", true);
+    buttonBackup    = std::make_unique<Clickable>(204, 102, 110, 35, COLOR_GREY_DARKER, COLOR_WHITE, "BackUp \uE004", true);
     buttonRestore   = std::make_unique<Clickable>(204, 139, 110, 35, COLOR_GREY_DARKER, COLOR_WHITE, "恢復 \uE005", true);
     buttonCheats    = std::make_unique<Clickable>(204, 176, 110, 36, COLOR_GREY_DARKER, COLOR_WHITE, "作弊碼", true);
     buttonPlayCoins = std::make_unique<Clickable>(204, 176, 110, 36, COLOR_GREY_DARKER, COLOR_WHITE, "\uE075 遊戲金幣", true);
@@ -62,8 +62,8 @@ MainScreen::MainScreen(void) : hid(rowlen * collen, collen)
     C2D_TextParse(&top_y, staticBuf, "\uE003 多選");
     C2D_TextParse(&top_my, staticBuf, "\uE003 按住全選");
     C2D_TextParse(&top_b, staticBuf, "\uE001 退出選擇或取消多選");
-    C2D_TextParse(&bot_ts, staticBuf, "\uE01D \uE006 切換備份");
-    C2D_TextParse(&bot_x, staticBuf, "\uE002 刪除備份");
+    C2D_TextParse(&bot_ts, staticBuf, "\uE01D \uE006 切換BackUp");
+    C2D_TextParse(&bot_x, staticBuf, "\uE002 刪除BackUp");
     C2D_TextParse(&coins, staticBuf, "\uE075");
 
     C2D_TextOptimize(&ins1);
@@ -298,7 +298,7 @@ void MainScreen::handleEvents(touchPosition* touch)
             // If the "New..." entry is selected...
             if (0 == directoryList->index()) {
                 currentOverlay = std::make_shared<YesNoOverlay>(
-                    *this, "即將備份所選程式，是否繼續？",
+                    *this, "即將BackUp所選程式，是否繼續？",
                     [this]() {
                         auto result = io::backup(hid.fullIndex(), 0);
                         if (std::get<0>(result)) {
@@ -427,7 +427,7 @@ void MainScreen::handleEvents(touchPosition* touch)
         }
         else if (g_bottomScrollEnabled) {
             currentOverlay = std::make_shared<YesNoOverlay>(
-                *this, "即將備份所選儲存數據，是否繼續？",
+                *this, "即將BackUp所選儲存數據，是否繼續？",
                 [this]() {
                     auto result = io::backup(hid.fullIndex(), directoryList->index());
                     if (std::get<0>(result)) {

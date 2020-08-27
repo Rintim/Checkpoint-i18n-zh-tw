@@ -139,7 +139,7 @@ void CheatManagerOverlay::update(touchPosition* touch)
             g_selectedCheatCodes.push_back(scrollable->cellName(i));
         }
         me = std::make_shared<YesNoOverlay>(
-            screen, "即將儲存\n作弊檔案\n是否繼續？",
+            screen, "即將儲存\n作弊档案\n是否繼續？",
             []() {
                 CheatManager::getInstance().save(g_selectedCheatKey, g_selectedCheatCodes);
                 g_screen->removeOverlay();

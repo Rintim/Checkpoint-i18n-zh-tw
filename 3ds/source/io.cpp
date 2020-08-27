@@ -51,7 +51,7 @@ void io::copyFile(FS_Archive srcArch, FS_Archive dstArch, const std::u16string& 
     }
     else {
         Logger::getInstance().log(Logger::ERROR,
-            "拷貝過程中無法打開原始檔案 " + StringUtils::UTF16toUTF8(srcPath) + "\n原因： 0x%08lX. 正在跳過中...", input.result());
+            "拷貝過程中無法打開原始档案 " + StringUtils::UTF16toUTF8(srcPath) + "\n原因： 0x%08lX. 正在跳過中...", input.result());
         return;
     }
 
@@ -174,7 +174,7 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
     Title title;
     getTitle(title, index);
 
-    Logger::getInstance().log(Logger::INFO, "開始備份 %s. 程式 id: 0x%08lX.", title.shortDescription().c_str(), title.lowId());
+    Logger::getInstance().log(Logger::INFO, "開始BackUp %s. 程式 id: 0x%08lX.", title.shortDescription().c_str(), title.lowId());
 
     if (title.cardType() == CARD_CTR) {
         FS_Archive archive;
@@ -210,8 +210,8 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
                 res = FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, dstPath.data()));
                 if (R_FAILED(res)) {
                     FSUSER_CloseArchive(archive);
-                    Logger::getInstance().log(Logger::ERROR, "無法遞歸刪除現有備份資料夾，原因： 0x%08lX.", res);
-                    return std::make_tuple(false, res, "無法遞歸刪除現有\n備份資料夾。");
+                    Logger::getInstance().log(Logger::ERROR, "無法遞歸刪除現有BackUp資料夾，原因： 0x%08lX.", res);
+                    return std::make_tuple(false, res, "無法遞歸刪除現有\nBackUp資料夾。");
                 }
             }
 
@@ -226,7 +226,7 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
 
             res = io::copyDirectory(archive, Archive::sdmc(), StringUtils::UTF8toUTF16("/"), copyPath);
             if (R_FAILED(res)) {
-                std::string message = mode == MODE_SAVE ? "無法備份儲存數據" : "無法備份追加儲存數據";
+                std::string message = mode == MODE_SAVE ? "無法BackUp儲存數據" : "無法BackUp追加儲存數據";
                 FSUSER_CloseArchive(archive);
                 FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, dstPath.data()));
                 Logger::getInstance().log(Logger::ERROR, message + " Result 0x%08lX.", res);
@@ -236,8 +236,8 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
             refreshDirectories(title.id());
         }
         else {
-            Logger::getInstance().log(Logger::ERROR, "無法打開儲存檔案，原因： 0x%08lX.", res);
-            return std::make_tuple(false, res, "無法打開儲存檔案");
+            Logger::getInstance().log(Logger::ERROR, "無法打開儲存档案，原因： 0x%08lX.", res);
+            return std::make_tuple(false, res, "無法打開儲存档案");
         }
 
         FSUSER_CloseArchive(archive);
@@ -270,8 +270,8 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
         if (!isNewFolder || io::directoryExists(Archive::sdmc(), dstPath)) {
             res = FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, dstPath.data()));
             if (R_FAILED(res)) {
-                Logger::getInstance().log(Logger::ERROR, "無法遞歸刪除現有備份資料夾，原因： 0x%08lX.", res);
-                return std::make_tuple(false, res, "無法遞歸刪除現有\n備份資料夾。");
+                Logger::getInstance().log(Logger::ERROR, "無法遞歸刪除現有BackUp資料夾，原因： 0x%08lX.", res);
+                return std::make_tuple(false, res, "無法遞歸刪除現有\nBackUp資料夾。");
             }
         }
 
@@ -297,7 +297,7 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
             FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, dstPath.data()));
             Logger::getInstance().log(
                 Logger::ERROR, "Failed to delete directory recursively after failing to write save to the sd card with result 0x%08lX.", res);
-            return std::make_tuple(false, res, "無法備份儲存數據");
+            return std::make_tuple(false, res, "無法BackUp儲存數據");
         }
 
         FSStream stream(Archive::sdmc(), copyPath, FS_OPEN_WRITE, saveSize);
@@ -310,7 +310,7 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
             FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, dstPath.data()));
             Logger::getInstance().log(
                 Logger::ERROR, "Failed to delete directory recursively after failing to write save to the sd card with result 0x%08lX.", res);
-            return std::make_tuple(false, res, "無法備份儲存數據");
+            return std::make_tuple(false, res, "無法BackUp儲存數據");
         }
 
         delete[] saveFile;
@@ -319,7 +319,7 @@ std::tuple<bool, Result, std::string> io::backup(size_t index, size_t cellIndex)
     }
 
     Logger::getInstance().log(Logger::INFO, "Backup succeeded.");
-    return std::make_tuple(true, 0, "備份已完成");
+    return std::make_tuple(true, 0, "BackUp已完成");
 }
 
 std::tuple<bool, Result, std::string> io::restore(size_t index, size_t cellIndex, const std::string& nameFromCell)
@@ -380,8 +380,8 @@ std::tuple<bool, Result, std::string> io::restore(size_t index, size_t cellIndex
             }
         }
         else {
-            Logger::getInstance().log(Logger::ERROR, "無法打開儲存檔案： 0x%08lX.", res);
-            return std::make_tuple(false, res, "無法打開儲存檔案");
+            Logger::getInstance().log(Logger::ERROR, "無法打開儲存档案： 0x%08lX.", res);
+            return std::make_tuple(false, res, "無法打開儲存档案");
         }
 
         FSUSER_CloseArchive(archive);
@@ -405,8 +405,8 @@ std::tuple<bool, Result, std::string> io::restore(size_t index, size_t cellIndex
 
         if (R_FAILED(res)) {
             delete[] saveFile;
-            Logger::getInstance().log(Logger::ERROR, "無法打開儲存檔案的備份： 0x%08lX.", res);
-            return std::make_tuple(false, res, "無法打開儲存檔案的備份");
+            Logger::getInstance().log(Logger::ERROR, "無法打開儲存档案的BackUp： 0x%08lX.", res);
+            return std::make_tuple(false, res, "無法打開儲存档案的BackUp");
         }
 
         for (u32 i = 0; i < saveSize / pageSize; ++i) {
@@ -433,6 +433,6 @@ void io::deleteBackupFolder(const std::u16string& path)
 {
     Result res = FSUSER_DeleteDirectoryRecursively(Archive::sdmc(), fsMakePath(PATH_UTF16, path.data()));
     if (R_FAILED(res)) {
-        Logger::getInstance().log(Logger::INFO, "無法刪除備份資料夾： 0x%08lX.", res);
+        Logger::getInstance().log(Logger::INFO, "無法刪除BackUp資料夾： 0x%08lX.", res);
     }
 }
